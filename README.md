@@ -12,3 +12,5 @@ firewall starts the firewall on ubuntu systems
 adduser adds multiple users to the computer and can add the users to a already existing group
 
 addgroup adds multiple users to a group and can create new groups
+
+a section of this code was made by chatgpt 
