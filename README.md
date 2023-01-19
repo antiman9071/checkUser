@@ -1,5 +1,5 @@
 # checkUser
-a simple linux code to check, add, remove, and change permissions of users
+a simple linux code to check, add, remove, and change permissions of users and administrators of  a linux system sudo must be installed and used to run the code
 
 checkUser.sh [firewall] [adduser] [addgroup]
 
