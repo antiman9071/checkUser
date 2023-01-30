@@ -2,7 +2,7 @@
 # the help option, if this code is called no other part of the code will run this is by design
 if [[ "$1" == "help" ]];
   then
-    echo "checkUser.sh [firewall] [adduser] [addgroup]"
+    echo "checkUser.sh [firewall] [adduser] [addgroup] [update] "
     echo ""
     echo "the check user script is built to check authorized users and remove unauthorized users. It is built to be self explanatory all you need to do is follow the prompts. [] means that it is optional"
     echo ""
@@ -13,6 +13,8 @@ if [[ "$1" == "help" ]];
     echo "adduser adds multiple users to the computer and can add the users to a already existing group"
     echo ""
     echo "addgroup adds multiple users to a group and can create new groups"
+    echo ""
+    echo "update runs the distro's update command (currently it is only apt based systems)"
   else
   #this is the start of the script and is specfically for reading which users are authorized
   AuthUsers=()
@@ -122,7 +124,8 @@ if [[ "$1" == "help" ]];
   fi
 
   #for firewall option
-  if [[ "$1" == "firewall" || "$2" == "firewall" || "$3" == "firewall" ]]; then
+  if [[ "$1" == "firewall" || "$2" == "firewall" || "$3" == "firewall" || "$4" == "firewall" ]];
+  then
       sudo ufw enable
       status=$(sudo ufw status)
       if [ "$status" == "running" ]; then
@@ -132,7 +135,7 @@ if [[ "$1" == "help" ]];
         fi
   fi
   #for the adduser option
-  if [[ "$1" == "adduser" || "$2" == "adduser" || "$3" == "adduser" ]];
+  if [[ "$1" == "adduser" || "$2" == "adduser" || "$3" == "adduser" || "$4" == "adduser" ]];
   then
     read -p "how many users to add " AddUserVer
     for ((i=0;i<AddUserVer;i++)); do
@@ -155,7 +158,7 @@ if [[ "$1" == "help" ]];
     done
   fi
   #for the addgroup option
-  if [[ "$1" == "addgroup" || "$2" == "addgroup" || "$3" == "addgroup" ]];
+  if [[ "$1" == "addgroup" || "$2" == "addgroup" || "$3" == "addgroup" || "addgroup" ]];
   then
     read -p "what is the name of the group you need to add " group
     read -p "how many people do you need to add " numUsersforGroup
@@ -165,5 +168,10 @@ if [[ "$1" == "help" ]];
     read -p "who is the user to add " userAdd
     sudo gpasswd -a $userAdd $group
     done
+  fi
+  #for the update option
+  if [[ "$1" == "update" || "$2" == "update" || "$3" == "update" || "$4" == "update" ]];
+  then
+    sudo apt update
   fi
   fi
