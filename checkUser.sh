@@ -126,6 +126,13 @@ if [[ "$1" == "help" ]];
   #for firewall option
   if [[ "$1" == "firewall" || "$2" == "firewall" || "$3" == "firewall" || "$4" == "firewall" ]];
   then
+  #this section was added from a chris titus tech viceo/script
+  sudo ufw limit 22/tcp  
+  sudo ufw allow 80/tcp  
+  sudo ufw allow 443/tcp  
+  sudo ufw default deny incoming  
+  sudo ufw default allow outgoing
+  #end of inspired section 
       sudo ufw enable
       status=$(sudo ufw status)
       if [ "$status" == "running" ]; then
