@@ -167,7 +167,7 @@ if [[ "$1" == "help" ]];
     done
   fi
   #for the addgroup option
-  if [[ "$1" == "addgroup" || "$2" == "addgroup" || "$3" == "addgroup" || "$4" == "addgroup" || "$5" == "addgroup"]];
+  if [[ "$1" == "addgroup" || "$2" == "addgroup" || "$3" == "addgroup" || "$4" == "addgroup" || "$5" == "addgroup" ]];
   then
     read -p "what is the name of the group you need to add " group
     read -p "how many people do you need to add " numUsersforGroup
