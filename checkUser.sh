@@ -2,7 +2,7 @@
 # the help option, if this code is called no other part of the code will run this is by design
 if [[ "$1" == "help" ]];
   then
-    echo "checkUser.sh [firewall] [adduser] [addgroup] [update] "
+    echo "checkUser.sh [firewall] [adduser] [addgroup] [update] [mediaFiles]"
     echo ""
     echo "the check user script is built to check authorized users and remove unauthorized users. It is built to be self explanatory all you need to do is follow the prompts. [] means that it is optional"
     echo ""
@@ -15,6 +15,8 @@ if [[ "$1" == "help" ]];
     echo "addgroup adds multiple users to a group and can create new groups"
     echo ""
     echo "update runs the distro's update command (currently it is only apt based systems)"
+    echo ""
+    echo "mediaFiles finds all video and audio files in the home directory"
   else
   #this is the start of the script and is specfically for reading which users are authorized
   AuthUsers=()
@@ -124,7 +126,7 @@ if [[ "$1" == "help" ]];
   fi
 
   #for firewall option
-  if [[ "$1" == "firewall" || "$2" == "firewall" || "$3" == "firewall" || "$4" == "firewall" ]];
+  if [[ "$1" == "firewall" || "$2" == "firewall" || "$3" == "firewall" || "$4" == "firewall" || "$5" == "firewall" ]];
   then
   #this section was added from a chris titus tech viceo/script
   sudo ufw limit 22/tcp  
@@ -142,7 +144,7 @@ if [[ "$1" == "help" ]];
         fi
   fi
   #for the adduser option
-  if [[ "$1" == "adduser" || "$2" == "adduser" || "$3" == "adduser" || "$4" == "adduser" ]];
+  if [[ "$1" == "adduser" || "$2" == "adduser" || "$3" == "adduser" || "$4" == "adduser" || "$5" == "adduser" ]];
   then
     read -p "how many users to add " AddUserVer
     for ((i=0;i<AddUserVer;i++)); do
@@ -165,7 +167,7 @@ if [[ "$1" == "help" ]];
     done
   fi
   #for the addgroup option
-  if [[ "$1" == "addgroup" || "$2" == "addgroup" || "$3" == "addgroup" || "addgroup" ]];
+  if [[ "$1" == "addgroup" || "$2" == "addgroup" || "$3" == "addgroup" || "$4" == "addgroup" || "$5" == "addgroup"]];
   then
     read -p "what is the name of the group you need to add " group
     read -p "how many people do you need to add " numUsersforGroup
@@ -177,8 +179,15 @@ if [[ "$1" == "help" ]];
     done
   fi
   #for the update option
-  if [[ "$1" == "update" || "$2" == "update" || "$3" == "update" || "$4" == "update" ]];
+  if [[ "$1" == "update" || "$2" == "update" || "$3" == "update" || "$4" == "update" || "$5" == "update" ]];
   then
     sudo apt update
   fi
+  if [[ "$1" == "mediaFiles" || "$2" == "mediaFiles" || "$3" == "mediaFiles" || "$4" == "mediaFiles" || "$5" == "mediaFiles" ]];
+  then
+    sudo find /home -name *.mp3
+    sudo find /home -name *.mp4
+    sudo find /home -name *.oss
+  fi
+    
   fi
