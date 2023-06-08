@@ -13,4 +13,5 @@ update runs the distro's update command (currently it is only apt based systems)
 mediaFiles finds all video and audio files in the home directory
 
 password alllows you to change the password of a user, it will not check a users password
+
 a section of this code was written whith the help of chatGPT
