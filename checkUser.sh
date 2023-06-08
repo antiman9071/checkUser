@@ -2,7 +2,7 @@
 # the help option, if this code is called no other part of the code will run this is by design
 if [[ "$1" == "help" ]];
   then
-    echo "checkUser.sh [firewall] [adduser] [addgroup] [update] [mediaFiles]"
+    echo "checkUser.sh [firewall] [adduser] [addgroup] [update] [mediaFiles] [password]"
     echo ""
     echo "the check user script is built to check authorized users and remove unauthorized users. It is built to be self explanatory all you need to do is follow the prompts. [] means that it is optional"
     echo ""
@@ -17,6 +17,8 @@ if [[ "$1" == "help" ]];
     echo "update runs the distro's update command (currently it is only apt based systems)"
     echo ""
     echo "mediaFiles finds all video and audio files in the home directory"
+    echo ""
+    echo "password alllows you to change the password of a user, it will not check a users password"
   else
   #this is the start of the script and is specfically for reading which users are authorized
   AuthUsers=()
@@ -126,15 +128,15 @@ if [[ "$1" == "help" ]];
   fi
 
   #for firewall option
-  if [[ "$1" == "firewall" || "$2" == "firewall" || "$3" == "firewall" || "$4" == "firewall" || "$5" == "firewall" ]];
+  if [[ "$1" == "firewall" || "$2" == "firewall" || "$3" == "firewall" || "$4" == "firewall" || "$5" == "firewall" || "$6" == "firewall" ]];
   then
   #this section was added from a chris titus tech viceo/script
-  sudo ufw limit 22/tcp  
-  sudo ufw allow 80/tcp  
-  sudo ufw allow 443/tcp  
-  sudo ufw default deny incoming  
+  sudo ufw limit 22/tcp
+  sudo ufw allow 80/tcp
+  sudo ufw allow 443/tcp
+  sudo ufw default deny incoming
   sudo ufw default allow outgoing
-  #end of inspired section 
+  #end of inspired section
       sudo ufw enable
       status=$(sudo ufw status)
       if [ "$status" == "running" ]; then
@@ -144,7 +146,7 @@ if [[ "$1" == "help" ]];
         fi
   fi
   #for the adduser option
-  if [[ "$1" == "adduser" || "$2" == "adduser" || "$3" == "adduser" || "$4" == "adduser" || "$5" == "adduser" ]];
+  if [[ "$1" == "adduser" || "$2" == "adduser" || "$3" == "adduser" || "$4" == "adduser" || "$5" == "adduser" || "$6" == "adduser" ]];
   then
     read -p "how many users to add " AddUserVer
     for ((i=0;i<AddUserVer;i++)); do
@@ -167,11 +169,16 @@ if [[ "$1" == "help" ]];
     done
   fi
   #for the addgroup option
-  if [[ "$1" == "addgroup" || "$2" == "addgroup" || "$3" == "addgroup" || "$4" == "addgroup" || "$5" == "addgroup" ]];
+  if [[ "$1" == "addgroup" || "$2" == "addgroup" || "$3" == "addgroup" || "$4" == "addgroup" || "$5" == "addgroup" || "$6" == "addgroup" ]];
   then
     read -p "what is the name of the group you need to add " group
     read -p "how many people do you need to add " numUsersforGroup
-    sudo groupadd "$group"
+      if grep -q "^$group:" /etc/group; then
+        echo ""
+      else
+        # Create the group if it doesn't exist
+        sudo groupadd "$group"
+      fi
     for ((i=0;i<numUsersforGroup;i++));
     do
     read -p "who is the user to add " userAdd
@@ -179,15 +186,28 @@ if [[ "$1" == "help" ]];
     done
   fi
   #for the update option
-  if [[ "$1" == "update" || "$2" == "update" || "$3" == "update" || "$4" == "update" || "$5" == "update" ]];
+  if [[ "$1" == "update" || "$2" == "update" || "$3" == "update" || "$4" == "update" || "$5" == "update" || "$6" == "update" ]];
   then
-    sudo apt update
+    if [[ $(uname -r) == *"fc"* ]]; then
+      sudo dnf update
+    else if [[ $(uname -r) == *"generic"* ]]; then
+      sudo apt update && sudo apt full-upgrade
+    else
+    sudo pamac update
+    fi
+    fi
+  echo "PLEASE REMEMBER TO ADD AUTO UPDATE TO INCREASE SECURITY"
+
   fi
-  if [[ "$1" == "mediaFiles" || "$2" == "mediaFiles" || "$3" == "mediaFiles" || "$4" == "mediaFiles" || "$5" == "mediaFiles" ]];
+  if [[ "$1" == "mediaFiles" || "$2" == "mediaFiles" || "$3" == "mediaFiles" || "$4" == "mediaFiles" || "$5" == "mediaFiles" || "$6" == "mediaFiles" ]];
   then
     sudo find /home -name *.mp3
     sudo find /home -name *.mp4
     sudo find /home -name *.oss
   fi
-    
+  if [[ "$1" == "password" || "$2" == "password" || "$3" == "password" || "$4" == "password" || "$5" == "password" || "$6" == "password" ]];
+  then
+    read -p "what is the user name of the person" user
+    sudo passwd $user
+  fi
   fi
