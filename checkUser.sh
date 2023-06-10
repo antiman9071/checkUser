@@ -1,5 +1,6 @@
 #! /bin/bash
 # the help option, if this code is called no other part of the code will run this is by design
+#set -x
 if [[ "$1" == "help" ]];
   then
     echo "checkUser.sh [firewall] [adduser] [addgroup] [update] [mediaFiles] [password]"
@@ -38,6 +39,7 @@ if [[ "$1" == "help" ]];
       read ver
       AuthAdms+=($ver)
       AuthUsers+=($ver)
+      sudo gpasswd -a $ver sudo
   done
 
 
@@ -47,17 +49,18 @@ if [[ "$1" == "help" ]];
   # Read each line in the file
   while read -r line; do
     # Extract the user ID from the line
-    uid=$(echo "$line" | cut -d: -f3)
+    uid=$(echo $line | cut -d\: -f3)
 
     # Check if the user ID is greater than 1000
-    if (($uid>=1000 && $uid<2000)); then
+    if (($uid>=1000 && $uid<65534)); then
       # Print the line if the user ID is greater than 1000
-      uid=$(echo "$line" | cut -d: -f 1)
+      uid=$(getent passwd $uid | cut -d\: -f1)
+
       users+=("$uid")
     fi
   done < /etc/passwd
   usersAmt=${#users[@]}
-
+  adminsAmt=${#AuthAdms[@]}
   # Check for administrators.
   for ((i=0;i<usersAmt;i++)); do
 
@@ -71,7 +74,7 @@ if [[ "$1" == "help" ]];
       echo -e "${trueUsers[i]}"
   done
   echo ""
-  adminsAmt=${#admins[@]}
+
   if [ -n "$admins" ]; then
     # Print the list of administrators.
     echo "List of administrators:"
