@@ -27,13 +27,13 @@ if [[ "$1" == "help" ]];
   users=()
   read -p 'How Many Users without admin users ' numUsers
   read -p 'How many admin users ' numAdms
-  echo 'users'
+  echo 'users(can be copy/pasted)'
   for ((i=0;i<numUsers;i++))
   do
       read ver
       AuthUsers+=($ver)
   done
-  echo 'admins'
+  echo 'admins(cannot be copy/pasted)'
   for ((i=0;i<numAdms;i++))
   do
       read ver
