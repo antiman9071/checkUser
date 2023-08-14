@@ -7,4 +7,5 @@ all options are interchangeable this is just the order I put them in the code
 -u runs the distro's update command (currently it is only apt based systems)
 -m finds all video and audio files in the home directory
 -p allows you to change the password of a user, it will not check a users password however it will set password rules
+
 a section of this code was written whith the help of chatGPT
