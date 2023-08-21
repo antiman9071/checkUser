@@ -219,9 +219,9 @@ if [[ "$1" == "help" ]];
       read -p "would you like to add basic password rules y/n (please put only the letter also dont mind the man pages) " yon
       if [[ "$yon" != "n" || "$yon" != "n" ]]; then
         tally2orfaillock="pam_tally2.so"
-        man pam_tally2
+        sudo which tally2
         if [ $? != 0 ]; then
-            man pam_faillock
+            sudo which faillock
             if [ $? != 0 ]; then
                 echo "please install either pam_faillock or pam_tally2"
                 exit=1
