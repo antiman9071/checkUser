@@ -34,6 +34,9 @@ if [[ "$1" == "help" ]];
   do
       read ver
       AuthUsers+=($ver)
+      if (( cat /etc/passwd|grep -i "$ver" == 1 )){
+      sudo useradd $ver
+      }
   done
   echo 'admins'
   for ((i=0;i<numAdms;i++))
