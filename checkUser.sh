@@ -3,7 +3,7 @@
 #set -x
 if [[ "$1" == "help" ]];
   then
-    echo "checkUser.sh [-f] [-a] [-g] [-u] [-m] [-p]"
+    echo "checkUser.sh [-f] [-a] [-g] [-m] [-p] [-u]"
     echo ""
     echo "the check user script is built to check authorized users and remove unauthorized users. It is built to be self explanatory all you need to do is follow the prompts. [] means that it is optional"
     echo ""
@@ -15,11 +15,11 @@ if [[ "$1" == "help" ]];
     echo ""
     echo "-g adds multiple users to a group and can create new groups"
     echo ""
-    echo "-u runs the distro's update command (currently it is only apt based systems)"
-    echo ""
     echo "-m finds all video and audio files in the home directory"
     echo ""
-    echo "-p alllows you to change the password of a user, it will not check a users password however it will set password rules"
+    echo "-p allows you to change the password of a user, it will not check a users password however it will set password rules"
+    echo ""
+    echo "-u runs the distro's update command (currently it is only apt based systems)"
     exit 0;
   else
   #this is the start of the script and is specfically for reading which users are authorized
@@ -194,22 +194,7 @@ if [[ "$1" == "help" ]];
     sudo gpasswd -a $userAdd $group
     done
     ;;
-  #for the update option
-    u)
-
-    if [[ $(uname -r) == *"fc"* ]]; then
-        sudo dnf update
-      else if [[ $(uname -r) == *"generic"* ]]; then
-        software-properties-gtk --open-tab=2
-        sudo apt update && sudo apt full-upgrade
-      else
-        sudo pamac update
-      fi
-    fi
-    #echo "PLEASE REMEMBER TO ADD AUTO UPDATE TO INCREASE SECURITY"
-
-    ;;
-
+  
     m)
       sudo find /home -name *.mp3
       sudo find /home -name *.mp4
@@ -289,6 +274,22 @@ if [[ "$1" == "help" ]];
       sudo passwd $user
        
     ;;
+    #for the update option
+    u)
+
+    if [[ $(uname -r) == *"fc"* ]]; then
+        sudo dnf update
+      else if [[ $(uname -r) == *"generic"* ]]; then
+        software-properties-gtk --open-tab=2
+        sudo apt update && sudo apt full-upgrade
+      else
+        sudo pamac update
+      fi
+    fi
+    #echo "PLEASE REMEMBER TO ADD AUTO UPDATE TO INCREASE SECURITY"
+
+    ;;
+
     esac
   done
   fi
