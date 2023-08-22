@@ -136,7 +136,7 @@ if [[ "$1" == "help" ]];
       done
     fi
   fi
-  while getopts ":f :a :g :u :m :p" opt; do
+  while getopts ":f :a :g :m :p :s :u" opt; do
     case $opt in
     #for firewall option
     f)
@@ -201,6 +201,7 @@ if [[ "$1" == "help" ]];
       sudo find /home -name *.mp3
       sudo find /home -name *.mp4
       sudo find /home -name *.oss
+      read -p "finished? hit enter"
     ;;
     p) #add the abillity to edit the login.defs file just in case
       read -p "would you like to add basic password rules y/n (please put only the letter also dont mind the man pages) " yon
