@@ -3,7 +3,7 @@
 #set -x
 if [[ "$1" == "help" ]];
   then
-    echo "checkUser.sh [-f] [-a] [-g] [-m] [-p] [-u]"
+    echo "checkUser.sh [-f] [-a] [-g] [-m] [-p] [-s] [-u]"
     echo ""
     echo "the check user script is built to check authorized users and remove unauthorized users. It is built to be self explanatory all you need to do is follow the prompts. [] means that it is optional"
     echo ""
@@ -18,6 +18,8 @@ if [[ "$1" == "help" ]];
     echo "-m finds all video and audio files in the home directory"
     echo ""
     echo "-p allows you to change the password of a user, it will not check a users password however it will set password rules"
+    echo ""
+    echo "-s checks against the defaultServices.txt file to flag potentially unwanted services"
     echo ""
     echo "-u runs the distro's update command (currently it is only apt based systems)"
     exit 0;
@@ -275,6 +277,11 @@ if [[ "$1" == "help" ]];
       sudo passwd $user
        
     ;;
+    s)
+    	sudo service --status-all>Services.txt
+     	echo "services listed are flagged as they are different from the current list if they are normal please add a new list"
+     	diff Services.txt ./checkUser/defaultServices.txt
+      	echo "please remove the services file when completed"
     #for the update option
     u)
 
