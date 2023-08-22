@@ -260,14 +260,15 @@ if [[ "$1" == "help" ]];
         echo ""
         read -p "are these config files correct y/n " conifgyon
         echo "backups for all edited PAM files are in this directory"
-        if [[ $configyon == y || $configyon == Y ]]; then
-          mv ./common-password-edit /etc/pam.d/common-password
+        if [[ $configyon == n || $configyon == N ]]; then
+          echo "please edit the files yourself or rerun code"
+          rm ./common-password-edit ./common-auth-edit ./common-account-edit login.defs-edit
+          else 
+          
+	  mv ./common-password-edit /etc/pam.d/common-password
           mv ./common-auth-edit /etc/pam.d/common-auth
           mv ./common-account-edit /etc/pam.d/common-account
           rm ./common-password-edit ./common-auth-edit ./common-account-edit
-          else 
-          echo "please edit the files yourself or rerun code"
-          rm ./common-password-edit ./common-auth-edit ./common-account-edit login.defs-edit
         fi
       fi
       read -p "what is the user name of the person" user
