@@ -25,6 +25,7 @@ if [[ "$1" == "help" ]];
     exit 0;
   else
   #this is the start of the script and is specfically for reading which users are authorized
+  echo "the script may or may not check services remember to check them"
   AuthUsers=()
   AuthAdms=()
   users=()
