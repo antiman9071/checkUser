@@ -282,6 +282,9 @@ if [[ "$1" == "help" ]];
      	echo "services listed are flagged as they are different from the current list if they are normal please add a new list"
      	diff Services.txt ./checkUser/defaultServices.txt
       	echo "please remove the services file when completed"
+       read -p "finished? hit enter"
+       rm Services.txt
+       ;;
     #for the update option
     u)
 
