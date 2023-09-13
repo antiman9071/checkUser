@@ -44,7 +44,7 @@ if [[ "$1" == "help" ]];
         sudo dnf update
       else if [[ $(uname -r) == *"generic"* ]]; then
         software-properties-gtk --open-tab=2
-        sudo nohup apt update && sudo nohup apt full-upgrade -y && echo "update complete" &
+        touch update.out update1.out && sudo nohup apt update>update.out 2>&1 && sudo nohup apt full-upgrade -y>update1.out 2>&1&& echo "update complete"&
       else
         sudo pamac update
       fi
