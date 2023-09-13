@@ -1,8 +1,9 @@
-checkUser.sh [-f] [-a] [-g] [-m] [-p] [-s] [-u]
+checkUser.sh [-s] [-u] [-f] [-a] [-g] [-m] [-p] 
 
 The check user script is built to check authorized users and remove unauthorized users. It is built to be self-explanatory; all you need to do is follow the prompts. [] means that it is optional.
 
 All options are interchangeable; this is just the order I put them in the code.
+
 -s: Checks against the defaultServices.txt file to flag potentially unwanted services.
 
 -u: Runs the distro's update command (currently, it is only apt-based systems). however, does send to background type jobs to check
