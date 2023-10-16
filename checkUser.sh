@@ -35,8 +35,8 @@ if [[ "$1" == "help" ]];
      	echo "services listed are flagged as they are different from the current list if they are normal please add a new list"
      	if[[ $ubuver == 16 ]]; then
       		diff Services.txt ./checkUser/defaultServices(UBU16).txt
-	else
- 		diff Services.txt ./checkUser/defaultServices(UBU22).txt
+	#else
+ 		#diff Services.txt ./checkUser/defaultServices(UBU22).txt
   	fi
       	echo "please remove the services file when completed"
        read -p "finished? hit enter"
