@@ -30,9 +30,14 @@ if [[ "$1" == "help" ]];
     while getopts ":s :u :f :a :g :m :p" opt; do
     case $opt in
     s)
+    	read -p "which ubuntu version(16 or 22)" ubuver
     	sudo service --status-all > Services.txt
      	echo "services listed are flagged as they are different from the current list if they are normal please add a new list"
-     	diff Services.txt ./checkUser/defaultServices.txt
+     	if[[ $ubuver == 16 ]]; then
+      		diff Services.txt ./checkUser/defaultServices(UBU16).txt
+	else
+ 		diff Services.txt ./checkUser/defaultServices(UBU22).txt
+  	fi
       	echo "please remove the services file when completed"
        read -p "finished? hit enter"
        rm Services.txt
