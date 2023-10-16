@@ -35,8 +35,9 @@ if [[ "$1" == "help" ]];
      	echo "services listed are flagged as they are different from the current list if they are normal please add a new list"
      	if[[ $ubuver == 16 ]]; then
       		diff Services.txt ./checkUser/defaultServices(UBU16).txt
-	#else
- 		#diff Services.txt ./checkUser/defaultServices(UBU22).txt
+	else
+ 		cat Services.txt
+   		#diff Services.txt ./checkUser/defaultServices(UBU22).txt
   	fi
       	echo "please remove the services file when completed"
        read -p "finished? hit enter"
@@ -195,10 +196,10 @@ if [[ "$1" == "help" ]];
           rm ./common-password-edit ./common-auth-edit ./common-account-edit login.defs-edit
           else
 
-	  mv ./common-password-edit /etc/pam.d/common-password
-          mv ./common-auth-edit /etc/pam.d/common-auth
-          mv ./common-account-edit /etc/pam.d/common-account
-          rm ./common-password-edit ./common-auth-edit ./common-account-edit
+	  sudo mv ./common-password-edit /etc/pam.d/common-password
+          sudo mv ./common-auth-edit /etc/pam.d/common-auth
+          sudo mv ./common-account-edit /etc/pam.d/common-account
+          sudo rm ./common-password-edit ./common-auth-edit ./common-account-edit
         fi
       fi
       read -p "what is the user name of the person" user
