@@ -30,37 +30,32 @@ if [[ "$1" == "help" ]];
     while getopts ":s :u :f :a :g :m :p" opt; do
     case $opt in
     s)
-    	read -p "which ubuntu version(16 or 22)" ubuver
+    	#read -p "which ubuntu version(16 or 22)" ubuver
     	sudo service --status-all > Services.txt
-     	echo "services listed are flagged as they are different from the current list if they are normal please add a new list"
-     	if[[ $ubuver == 16 ]]; then
-      		diff Services.txt ./checkUser/defaultServices(UBU16).txt
-	else
- 		cat Services.txt
-   		#diff Services.txt ./checkUser/defaultServices(UBU22).txt
-  	fi
-      	echo "please remove the services file when completed"
+     	echo "services are listed check and remove"
+     	cat Services.txt
+   	echo "please remove the services file when completed"
        read -p "finished? hit enter"
        rm Services.txt
        ;;
     #for the update option
     u)
 
-    if [[ $(uname -r) == *"fc"* ]]; then
-        sudo dnf update
-      else if [[ $(uname -r) == *"generic"* ]]; then
-        software-properties-gtk --open-tab=2
-        touch update.out update1.out && sudo nohup apt update>update.out 2>&1 && sudo nohup apt full-upgrade -y>update1.out 2>&1&& echo "update complete"&
-      else
-        sudo pamac update
-      fi
-    fi
+    #if [[ $(uname -r) == *"fc"* ]]; then
+     #   sudo dnf update
+      #else if [[ $(uname -r) == *"generic"* ]]; then
+       #
+      #else
+       # sudo pamac update
+      #fi
+    #fi
+    software-properties-gtk --open-tab=2
+    nohup sudo apt-get update -y && sudo apt-get upgrade -y >update.out 2>&1&
+    ;;
     #echo "PLEASE REMEMBER TO ADD AUTO UPDATE TO INCREASE SECURITY"
 
-    ;;
     #for firewall option
     f)
-    sleep 0.05s
       #this section was added from a chris titus tech viceo/script
         read -p "is there a service you would like to add if so type the service if not type 0" $addedserver
         sudo ufw allow "$addedserver"
@@ -80,7 +75,6 @@ if [[ "$1" == "help" ]];
     ;;
     a)
     #for the adduser option
-    sleep 0.05s
     read -p "how many users to add " AddUserVer
     for ((i=0;i<AddUserVer;i++)); do
       read -p "name of the user " UserAdd
@@ -107,7 +101,6 @@ if [[ "$1" == "help" ]];
     ;;
   #for the addgroup option
     a)
-    sleep 0.05s
     read -p "what is the name of the group you need to add " group
     read -p "how many people do you need to add " numUsersforGroup
       if grep -q "^$group:" /etc/group; then
@@ -124,14 +117,12 @@ if [[ "$1" == "help" ]];
     ;;
 
     m)
-    sleep 0.05s
       sudo find /home -name *.mp3
       sudo find /home -name *.mp4
       sudo find /home -name *.oss
       read -p "finished? hit enter"
     ;;
     p) #add the abillity to edit the login.defs file just in case
-    sleep 0.05s
       read -p "would you like to add basic password rules y/n (please put only the letter also dont mind the man pages) " yon
       if [[ "$yon" != "n" || "$yon" != "n" ]]; then
         tally2orfaillock="pam_tally2.so"
@@ -163,6 +154,8 @@ if [[ "$1" == "help" ]];
         while read -r line; do
           if [ "$(echo "$line" | grep "^password" | grep -v "deny.so$" | grep -v "permit.so$")" ]; then
             echo "$line minlen=$minlen remember=$remember"
+            sudo apt install libpam-pam_pwquality
+            echo "password      requisite     pam_pwquality.so"
           else
             echo "$line"
           fi
@@ -213,7 +206,13 @@ if [[ "$1" == "help" ]];
   fi
   #this is the start of the script and is specfically for reading which users are authorized
   echo "the script may or may not check services remember to check them"
-
+  echo "check sudo for if there is an exclimation point (Defaults !authenticate) and remove it"
+  sleep 1.0s
+  sudo visudo
+  sudo chmod 640 /etc/shadow
+  echo "ensure that port forwarding is disabled net.ipv4.ip_forward=1 should be 0"
+  sleep 1.0s
+  sudo nano /etc/sysctl.conf
 
   read -p 'How Many Users without admin users ' numUsers
   read -p 'How many admin users ' numAdms
