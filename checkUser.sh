@@ -151,10 +151,10 @@ if [[ "$1" == "help" ]];
         read -p "how many passwords should be remembered " remember
         cp /etc/pam.d/common-password ./common-password-edit
         cp /etc/pam.d/common-password ./common-password-backup
+	sudo apt install libpam-pam_pwquality
         while read -r line; do
           if [ "$(echo "$line" | grep "^password" | grep -v "deny.so$" | grep -v "permit.so$")" ]; then
             echo "$line minlen=$minlen remember=$remember"
-            sudo apt install libpam-pam_pwquality
             echo "password      requisite     pam_pwquality.so"
           else
             echo "$line"
